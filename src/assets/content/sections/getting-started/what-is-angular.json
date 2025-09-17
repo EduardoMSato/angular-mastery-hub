@@ -1,0 +1,32 @@
+{
+  "id": "what-is-angular",
+  "moduleId": "getting-started",
+  "title": "What is Angular?",
+  "content": "<h2>Introduction to Angular</h2><p>Angular is a <strong>powerful, open-source web application framework</strong> developed and maintained by Google. It's designed to make building dynamic, single-page applications (SPAs) easier and more efficient.</p><h3>Key Features</h3><ul><li><strong>Component-based architecture:</strong> Build encapsulated components that manage their own state</li><li><strong>TypeScript by default:</strong> Enhanced development experience with strong typing</li><li><strong>Powerful CLI:</strong> Command-line interface for scaffolding and building projects</li><li><strong>Dependency Injection:</strong> Built-in dependency injection system for better testability</li><li><strong>Reactive programming:</strong> Built on RxJS for handling asynchronous operations</li></ul><h3>Why Choose Angular?</h3><p>Angular is particularly well-suited for:</p><ul><li>Large-scale enterprise applications</li><li>Applications requiring complex state management</li><li>Projects with teams that prefer structure and conventions</li><li>Applications that need extensive testing capabilities</li></ul><p>Throughout this course, you'll learn how to harness Angular's power to build modern, scalable web applications.</p>",
+  "codeExamples": [
+    {
+      "id": "hello-world-component",
+      "title": "Your First Angular Component",
+      "description": "This is what a basic Angular component looks like. Every Angular application is built with components like this one.",
+      "code": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-hello-world',\n  template: `\n    <div class=\"hello-container\">\n      <h1>{{ title }}</h1>\n      <p>Welcome to {{ appName }}!</p>\n      <button (click)=\"sayHello()\">Say Hello</button>\n    </div>\n  `,\n  styleUrls: ['./hello-world.component.css']\n})\nexport class HelloWorldComponent {\n  title = 'Hello, Angular!';\n  appName = 'Angular Mastery Hub';\n\n  sayHello() {\n    alert(`Hello from ${this.appName}!`);\n  }\n}",
+      "language": "typescript",
+      "isEditable": true,
+      "explanation": "This component demonstrates the basic structure of an Angular component: a TypeScript class decorated with @Component, containing properties and methods that can be used in the template.",
+      "expectedOutput": "A component that displays a greeting message with an interactive button"
+    },
+    {
+      "id": "app-module-example",
+      "title": "Angular Module Structure",
+      "description": "Here's how Angular organizes components into modules. This is the root module of an Angular application.",
+      "code": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { HelloWorldComponent } from './hello-world.component';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    HelloWorldComponent\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule\n  ],\n  providers: [],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }",
+      "language": "typescript",
+      "isEditable": false,
+      "explanation": "Angular modules help organize an application into cohesive blocks of functionality. The @NgModule decorator configures the module with components, imports, providers, and bootstrap components.",
+      "expectedOutput": "A properly configured Angular module ready to run the application"
+    }
+  ],
+  "order": 1,
+  "tags": ["introduction", "overview", "framework", "components", "modules"],
+  "difficulty": "beginner",
+  "estimatedTime": "15 min"
+}

@@ -1,0 +1,31 @@
+<div class="layout-container" [class.sidebar-open]="sidebarOpen$ | async">
+  <!-- Header -->
+  <app-header
+    class="layout-header"
+    (sidebarToggle)="onSidebarToggle()">
+  </app-header>
+
+  <!-- Sidebar -->
+  <app-sidebar
+    class="layout-sidebar"
+    [isOpen]="(sidebarOpen$ | async) || false">
+  </app-sidebar>
+
+  <!-- Backdrop for mobile -->
+  <div
+    class="layout-backdrop"
+    *ngIf="sidebarOpen$ | async"
+    (click)="onBackdropClick()"
+    aria-hidden="true">
+  </div>
+
+  <!-- Main Content Area -->
+  <main class="layout-main" role="main">
+    <div class="content-container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <app-footer class="layout-footer"></app-footer>
+</div>

@@ -1,0 +1,54 @@
+<mat-toolbar color="primary" class="header-toolbar">
+  <!-- Sidebar Toggle Button -->
+  <button
+    mat-icon-button
+    (click)="onSidebarToggle()"
+    aria-label="Toggle navigation sidebar"
+    matTooltip="Toggle sidebar"
+    class="sidebar-toggle">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <!-- Logo and Title -->
+  <div class="header-title" (click)="onHomeClick()">
+    <mat-icon class="logo-icon">school</mat-icon>
+    <span class="title-text">Angular Mastery Hub</span>
+  </div>
+
+  <!-- Spacer -->
+  <div class="spacer"></div>
+
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs" aria-label="Breadcrumb navigation" *ngIf="breadcrumbs$ | async as breadcrumbs">
+    <ol class="breadcrumb-list">
+      <li
+        class="breadcrumb-item"
+        *ngFor="let breadcrumb of breadcrumbs; let last = last"
+        [class.active]="breadcrumb.isActive">
+
+        <a
+          *ngIf="!breadcrumb.isActive; else activeText"
+          [routerLink]="breadcrumb.route"
+          class="breadcrumb-link">
+          {{ breadcrumb.label }}
+        </a>
+
+        <ng-template #activeText>
+          <span class="breadcrumb-current">{{ breadcrumb.label }}</span>
+        </ng-template>
+
+        <mat-icon *ngIf="!last" class="breadcrumb-separator">chevron_right</mat-icon>
+      </li>
+    </ol>
+  </nav>
+
+  <!-- Theme Toggle -->
+  <button
+    mat-icon-button
+    (click)="onThemeToggle()"
+    [attr.aria-label]="(isDarkTheme$ | async) ? 'Switch to light theme' : 'Switch to dark theme'"
+    [matTooltip]="(isDarkTheme$ | async) ? 'Light theme' : 'Dark theme'"
+    class="theme-toggle">
+    <mat-icon>{{ (isDarkTheme$ | async) ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
+</mat-toolbar>

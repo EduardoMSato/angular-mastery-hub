@@ -1,0 +1,116 @@
+@use '@angular/material' as mat;
+
+.layout-container {
+  display: grid;
+  grid-template-areas:
+    'header header'
+    'sidebar main'
+    'footer footer';
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 0 1fr;
+  min-height: 100vh;
+  transition: grid-template-columns 0.3s ease-in-out;
+
+  &.sidebar-open {
+    grid-template-columns: 280px 1fr;
+  }
+}
+
+.layout-header {
+  grid-area: header;
+  z-index: 100;
+}
+
+.layout-sidebar {
+  grid-area: sidebar;
+  z-index: 90;
+}
+
+.layout-main {
+  grid-area: main;
+  overflow-x: hidden;
+  min-height: 0; // Allows content to scroll
+}
+
+.layout-footer {
+  grid-area: footer;
+  z-index: 80;
+}
+
+.layout-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 85;
+  cursor: pointer;
+}
+
+.content-container {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// Mobile and tablet responsive behavior
+@media (max-width: 768px) {
+  .layout-container {
+    grid-template-areas:
+      'header'
+      'main'
+      'footer';
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+
+    &.sidebar-open {
+      grid-template-columns: 1fr;
+
+      .layout-sidebar {
+        position: fixed;
+        top: 64px; // Height of header
+        left: 0;
+        width: 280px;
+        height: calc(100vh - 64px);
+        transform: translateX(0);
+      }
+
+      .layout-backdrop {
+        display: block;
+      }
+    }
+  }
+
+  .layout-sidebar {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    width: 280px;
+    height: calc(100vh - 64px);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .content-container {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-container {
+    padding: 0.75rem;
+  }
+
+  .layout-container.sidebar-open .layout-sidebar {
+    width: 100vw;
+  }
+}
+
+// Dark theme adjustments
+:host-context(.dark-theme) {
+  .layout-backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+}

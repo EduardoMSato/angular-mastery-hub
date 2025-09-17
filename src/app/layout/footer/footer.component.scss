@@ -1,0 +1,66 @@
+@use '@angular/material' as mat;
+
+.app-footer {
+  background-color: var(--mdc-text-field-container-color, #f5f5f5);
+  border-top: 1px solid var(--mdc-outlined-text-field-outline-color, #e0e0e0);
+  padding: 1rem 0;
+  margin-top: auto;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 0 1rem;
+  }
+}
+
+.footer-left,
+.footer-right {
+  p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--mdc-outlined-text-field-input-text-color, #666);
+    line-height: 1.4;
+  }
+}
+
+.copyright {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  .heart-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    color: #e91e63;
+  }
+}
+
+.powered-by {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+// Dark theme adjustments
+:host-context(.dark-theme) {
+  .app-footer {
+    background-color: #2e2e2e;
+    border-top-color: #444;
+  }
+
+  .footer-left p,
+  .footer-right p {
+    color: #ccc;
+  }
+}

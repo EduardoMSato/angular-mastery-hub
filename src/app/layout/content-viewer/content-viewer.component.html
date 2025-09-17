@@ -1,0 +1,105 @@
+<!-- Loading State -->
+<div *ngIf="loading" class="loading-container">
+  <mat-spinner diameter="50"></mat-spinner>
+  <p class="loading-text">Loading content...</p>
+</div>
+
+<!-- Content Display -->
+<div *ngIf="!loading && section" class="content-container">
+  <!-- Section Header -->
+  <header class="section-header">
+    <div class="header-content">
+      <h1 class="section-title">{{ section.title }}</h1>
+
+      <div class="section-meta">
+        <mat-chip-set class="meta-chips">
+          <mat-chip [color]="getDifficultyColor(section.difficulty)" highlighted>
+            <mat-icon matChipAvatar>{{ getDifficultyIcon(section.difficulty) }}</mat-icon>
+            {{ section.difficulty | titlecase }}
+          </mat-chip>
+
+          <mat-chip>
+            <mat-icon matChipAvatar>schedule</mat-icon>
+            {{ section.estimatedTime }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+  </header>
+
+  <!-- Section Content -->
+  <main class="section-content">
+    <!-- Main Content Text -->
+    <div class="content-text" [innerHTML]="section.content"></div>
+
+    <!-- Code Examples -->
+    <section *ngIf="section.codeExamples?.length" class="code-examples">
+      <h2 class="examples-title">
+        <mat-icon>code</mat-icon>
+        Code Examples
+      </h2>
+
+      <div class="examples-grid">
+        <mat-card
+          *ngFor="let example of section.codeExamples; trackBy: trackByCodeExampleId"
+          class="code-example-card">
+
+          <mat-card-header>
+            <mat-card-title class="example-title">{{ example.title }}</mat-card-title>
+            <mat-card-subtitle class="example-language">{{ example.language | uppercase }}</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p *ngIf="example.description" class="example-description">
+              {{ example.description }}
+            </p>
+
+            <div class="code-block">
+              <pre><code [class]="'language-' + example.language">{{ example.code }}</code></pre>
+            </div>
+
+            <div *ngIf="example.explanation" class="example-explanation">
+              <h4 class="explanation-title">
+                <mat-icon>lightbulb</mat-icon>
+                Explanation
+              </h4>
+              <p class="explanation-text">{{ example.explanation }}</p>
+            </div>
+
+            <div *ngIf="example.expectedOutput" class="expected-output">
+              <h4 class="output-title">
+                <mat-icon>terminal</mat-icon>
+                Expected Output
+              </h4>
+              <pre class="output-text">{{ example.expectedOutput }}</pre>
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions *ngIf="example.isEditable">
+            <button mat-button color="primary">
+              <mat-icon>edit</mat-icon>
+              Try it yourself
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </section>
+
+    <!-- Tags -->
+    <div *ngIf="section.tags?.length" class="section-tags">
+      <h3 class="tags-title">Topics covered:</h3>
+      <mat-chip-set class="tags-list">
+        <mat-chip *ngFor="let tag of section.tags">{{ tag }}</mat-chip>
+      </mat-chip-set>
+    </div>
+  </main>
+</div>
+
+<!-- Empty State -->
+<div *ngIf="!loading && !section" class="empty-state">
+  <mat-icon class="empty-icon">school</mat-icon>
+  <h2 class="empty-title">Welcome to Angular Mastery Hub</h2>
+  <p class="empty-description">
+    Select a topic from the sidebar to start your Angular learning journey.
+  </p>
+</div>

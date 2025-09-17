@@ -1,0 +1,42 @@
+{
+  "id": "introduction",
+  "title": "Introduction to Angular",
+  "order": 1,
+  "content": "Welcome to Angular Mastery Hub! Angular is a powerful, full-featured framework for building dynamic web applications. Created and maintained by Google, Angular provides everything you need to build scalable, maintainable applications.\n\nAngular uses TypeScript as its primary language, which brings strong typing, advanced IDE support, and modern JavaScript features to your development workflow. The framework follows component-based architecture, making your code modular and reusable.",
+  "estimatedTime": "15 minutes",
+  "objectives": [
+    "Understand what Angular is and its key benefits",
+    "Learn about Angular's architecture and core concepts",
+    "Explore the Angular ecosystem and tools",
+    "Understand the difference between AngularJS and Angular"
+  ],
+  "codeExamples": [
+    {
+      "title": "Your First Angular Component",
+      "language": "typescript",
+      "code": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-hello-world',\n  template: `\n    <h1>Hello, {{name}}!</h1>\n    <p>Welcome to Angular development.</p>\n  `,\n  styles: [`\n    h1 { color: #1976d2; }\n    p { font-style: italic; }\n  `]\n})\nexport class HelloWorldComponent {\n  name = 'Angular Developer';\n}",
+      "explanation": "This is a basic Angular component that demonstrates the core building blocks: the @Component decorator, template with interpolation, and a simple property binding."
+    },
+    {
+      "title": "Using the Component",
+      "language": "html",
+      "code": "<!-- In your app.component.html -->\n<div class=\"container\">\n  <app-hello-world></app-hello-world>\n</div>",
+      "explanation": "Components are used by their selector in templates. Angular will replace the <app-hello-world> tag with the component's template."
+    }
+  ],
+  "exercises": [
+    {
+      "title": "Create Your First Component",
+      "description": "Create a personal greeting component that displays your name and favorite programming language.",
+      "hints": [
+        "Use the @Component decorator to define your component",
+        "Add a template with interpolation to display dynamic content",
+        "Create properties for name and favorite language",
+        "Don't forget to export your component class"
+      ],
+      "solution": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-personal-greeting',\n  template: `\n    <div class=\"greeting\">\n      <h2>Hi, I'm {{name}}!</h2>\n      <p>My favorite language is {{favoriteLanguage}}</p>\n    </div>\n  `,\n  styles: [`\n    .greeting {\n      padding: 20px;\n      border: 2px solid #1976d2;\n      border-radius: 8px;\n      text-align: center;\n    }\n  `]\n})\nexport class PersonalGreetingComponent {\n  name = 'Your Name';\n  favoriteLanguage = 'TypeScript';\n}"
+    }
+  ],
+  "nextSection": "installation",
+  "previousSection": null
+}

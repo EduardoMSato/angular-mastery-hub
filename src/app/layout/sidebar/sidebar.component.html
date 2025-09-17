@@ -1,0 +1,74 @@
+<div class="sidebar-container">
+  <!-- Loading State -->
+  <div *ngIf="loading$ | async" class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p class="loading-text">Loading content...</p>
+  </div>
+
+  <!-- Navigation Content -->
+  <nav *ngIf="!(loading$ | async)" class="sidebar-nav" aria-label="Learning modules navigation">
+    <div class="sidebar-header">
+      <h2 class="sidebar-title">Learning Path</h2>
+    </div>
+
+    <div class="navigation-tree">
+      <mat-accordion class="modules-accordion" multi="true">
+        <mat-expansion-panel
+          *ngFor="let module of modules$ | async; trackBy: trackByModuleId"
+          [expanded]="(currentModule$ | async) === module.id"
+          class="module-panel"
+          [class.current-module]="(currentModule$ | async) === module.id">
+
+          <!-- Module Header -->
+          <mat-expansion-panel-header class="module-header">
+            <mat-panel-title class="module-title">
+              <span class="module-icon">{{ module.icon }}</span>
+              <span class="module-text">{{ module.title }}</span>
+            </mat-panel-title>
+            <mat-panel-description class="module-description">
+              {{ module.estimatedTime }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <!-- Module Content - Sections List -->
+          <div class="module-content">
+            <p class="module-description-full">{{ module.description }}</p>
+
+            <mat-nav-list class="sections-list" role="list">
+              <mat-list-item
+                *ngFor="let section of module.sections; trackBy: trackBySectionId"
+                class="section-item"
+                [class.current-section]="(currentSection$ | async) === section.id"
+                role="listitem">
+
+                <a
+                  matLine
+                  [routerLink]="['/', module.id, section.id]"
+                  class="section-link"
+                  [attr.aria-label]="'Navigate to ' + section.title"
+                  (click)="onSectionClick(module.id, section.id)">
+
+                  <span class="section-title">{{ section.title }}</span>
+                  <span class="section-meta">
+                    <span class="section-difficulty" [class]="'difficulty-' + section.difficulty">
+                      {{ section.difficulty }}
+                    </span>
+                    <span class="section-time">{{ section.estimatedTime }}</span>
+                  </span>
+                </a>
+              </mat-list-item>
+            </mat-nav-list>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <!-- Progress Summary (Future Feature) -->
+    <div class="progress-summary">
+      <p class="progress-text">
+        <mat-icon class="progress-icon">trending_up</mat-icon>
+        Keep learning!
+      </p>
+    </div>
+  </nav>
+</div>

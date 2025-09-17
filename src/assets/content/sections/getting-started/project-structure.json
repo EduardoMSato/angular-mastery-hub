@@ -1,0 +1,49 @@
+{
+  "id": "project-structure",
+  "title": "Understanding Project Structure",
+  "order": 3,
+  "content": "An Angular project has a well-defined structure that organizes your code for maintainability and scalability. Understanding this structure is crucial for effective Angular development.\n\nThe Angular CLI creates a workspace with a specific folder hierarchy that follows Angular best practices and conventions.",
+  "estimatedTime": "20 minutes",
+  "objectives": [
+    "Understand the Angular workspace structure",
+    "Learn about key configuration files",
+    "Explore the src folder organization",
+    "Understand the role of each major directory and file"
+  ],
+  "codeExamples": [
+    {
+      "title": "Project Root Structure",
+      "language": "text",
+      "code": "my-angular-app/\n├── .angular/                 # Angular CLI cache\n├── .vscode/                  # VS Code configuration\n├── node_modules/             # Dependencies\n├── src/                      # Source code\n├── angular.json              # Angular workspace configuration\n├── package.json              # Project dependencies and scripts\n├── tsconfig.json             # TypeScript configuration\n├── tsconfig.app.json         # App-specific TypeScript config\n├── tsconfig.spec.json        # Test-specific TypeScript config\n└── README.md                 # Project documentation",
+      "explanation": "The root level contains configuration files and the main source code directory. Each file has a specific purpose in the Angular build process."
+    },
+    {
+      "title": "Source Directory Structure",
+      "language": "text",
+      "code": "src/\n├── app/                      # Application source code\n│   ├── app.component.ts      # Root component\n│   ├── app.component.html    # Root component template\n│   ├── app.component.scss    # Root component styles\n│   ├── app.component.spec.ts # Root component tests\n│   ├── app.config.ts         # Application configuration\n│   └── app.routes.ts         # Application routes\n├── assets/                   # Static assets (images, fonts, etc.)\n├── environments/             # Environment-specific configurations\n│   ├── environment.ts        # Development environment\n│   └── environment.prod.ts   # Production environment\n├── index.html                # Main HTML file\n├── main.ts                   # Application bootstrap\n├── styles.scss               # Global styles\n└── favicon.ico               # Application icon",
+      "explanation": "The src directory contains all your application code, organized into logical folders for components, services, assets, and configuration."
+    },
+    {
+      "title": "Component File Pattern",
+      "language": "text",
+      "code": "src/app/my-component/\n├── my-component.component.ts      # Component logic\n├── my-component.component.html    # Component template\n├── my-component.component.scss    # Component styles\n└── my-component.component.spec.ts # Component tests\n\n# Alternative: Inline template and styles\nmy-simple.component.ts             # All-in-one component file",
+      "explanation": "Angular components follow a consistent naming pattern. You can use separate files for template and styles, or inline them in the component file for simpler components."
+    }
+  ],
+  "exercises": [
+    {
+      "title": "Explore Your Project Structure",
+      "description": "Navigate through an Angular project and identify the purpose of key files and directories.",
+      "hints": [
+        "Create a new Angular project if you haven't already",
+        "Open the project in your code editor",
+        "Examine the angular.json file to understand build configuration",
+        "Look at the app.component files to see the component pattern",
+        "Check the package.json for available scripts"
+      ],
+      "solution": "# Create and explore a new project\nng new structure-demo\ncd structure-demo\n\n# Open in VS Code (if installed)\ncode .\n\n# Key files to examine:\n# 1. angular.json - workspace configuration\n# 2. package.json - dependencies and scripts\n# 3. src/app/app.component.* - root component files\n# 4. src/main.ts - application bootstrap\n# 5. src/index.html - main HTML file\n\n# Try these commands to understand the structure:\nng build --help\nng generate --help\nng serve --help"
+    }
+  ],
+  "nextSection": "first-component",
+  "previousSection": "installation"
+}
