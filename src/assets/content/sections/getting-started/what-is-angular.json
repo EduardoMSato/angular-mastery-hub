@@ -2,31 +2,43 @@
   "id": "what-is-angular",
   "moduleId": "getting-started",
   "title": "What is Angular?",
-  "content": "<h2>Introduction to Angular</h2><p>Angular is a <strong>powerful, open-source web application framework</strong> developed and maintained by Google. It's designed to make building dynamic, single-page applications (SPAs) easier and more efficient.</p><h3>Key Features</h3><ul><li><strong>Component-based architecture:</strong> Build encapsulated components that manage their own state</li><li><strong>TypeScript by default:</strong> Enhanced development experience with strong typing</li><li><strong>Powerful CLI:</strong> Command-line interface for scaffolding and building projects</li><li><strong>Dependency Injection:</strong> Built-in dependency injection system for better testability</li><li><strong>Reactive programming:</strong> Built on RxJS for handling asynchronous operations</li></ul><h3>Why Choose Angular?</h3><p>Angular is particularly well-suited for:</p><ul><li>Large-scale enterprise applications</li><li>Applications requiring complex state management</li><li>Projects with teams that prefer structure and conventions</li><li>Applications that need extensive testing capabilities</li></ul><p>Throughout this course, you'll learn how to harness Angular's power to build modern, scalable web applications.</p>",
+  "order": 1,
+  "content": "Angular is a powerful, open-source web application framework developed and maintained by Google. It's designed to make building dynamic, single-page applications (SPAs) easier and more efficient.\n\nAngular provides a complete solution for building modern web applications with a component-based architecture, powerful tooling, and enterprise-grade features.",
+  "estimatedTime": "15 minutes",
+  "objectives": [
+    "Understand what Angular is and its core philosophy",
+    "Learn about Angular's key features and benefits",
+    "Discover when to choose Angular for your projects",
+    "Get familiar with Angular's ecosystem and community"
+  ],
   "codeExamples": [
     {
-      "id": "hello-world-component",
       "title": "Your First Angular Component",
-      "description": "This is what a basic Angular component looks like. Every Angular application is built with components like this one.",
-      "code": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-hello-world',\n  template: `\n    <div class=\"hello-container\">\n      <h1>{{ title }}</h1>\n      <p>Welcome to {{ appName }}!</p>\n      <button (click)=\"sayHello()\">Say Hello</button>\n    </div>\n  `,\n  styleUrls: ['./hello-world.component.css']\n})\nexport class HelloWorldComponent {\n  title = 'Hello, Angular!';\n  appName = 'Angular Mastery Hub';\n\n  sayHello() {\n    alert(`Hello from ${this.appName}!`);\n  }\n}",
       "language": "typescript",
-      "isEditable": true,
-      "explanation": "This component demonstrates the basic structure of an Angular component: a TypeScript class decorated with @Component, containing properties and methods that can be used in the template.",
-      "expectedOutput": "A component that displays a greeting message with an interactive button"
+      "code": "import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-hello-world',\n  template: `\n    <div class=\"hello-container\">\n      <h1>{{ title }}</h1>\n      <p>Welcome to {{ appName }}!</p>\n      <button (click)=\"sayHello()\">Say Hello</button>\n    </div>\n  `,\n  styles: [`\n    .hello-container {\n      text-align: center;\n      padding: 20px;\n      font-family: Arial, sans-serif;\n    }\n    button {\n      background: #007bff;\n      color: white;\n      border: none;\n      padding: 10px 20px;\n      border-radius: 4px;\n      cursor: pointer;\n    }\n  `]\n})\nexport class HelloWorldComponent {\n  title = 'Hello, Angular!';\n  appName = 'Angular Mastery Hub';\n\n  sayHello() {\n    alert(`Hello from ${this.appName}!`);\n  }\n}",
+      "explanation": "This component demonstrates the basic structure of an Angular component: a TypeScript class decorated with @Component, containing properties and methods that can be used in the template."
     },
     {
-      "id": "app-module-example",
-      "title": "Angular Module Structure",
-      "description": "Here's how Angular organizes components into modules. This is the root module of an Angular application.",
-      "code": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { HelloWorldComponent } from './hello-world.component';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    HelloWorldComponent\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule\n  ],\n  providers: [],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }",
+      "title": "Angular vs Other Frameworks",
       "language": "typescript",
-      "isEditable": false,
-      "explanation": "Angular modules help organize an application into cohesive blocks of functionality. The @NgModule decorator configures the module with components, imports, providers, and bootstrap components.",
-      "expectedOutput": "A properly configured Angular module ready to run the application"
+      "code": "// Angular: Component-based with TypeScript\n@Component({\n  selector: 'app-counter',\n  template: `\n    <div>\n      <h2>Count: {{ count }}</h2>\n      <button (click)=\"increment()\">+</button>\n      <button (click)=\"decrement()\">-</button>\n    </div>\n  `\n})\nexport class CounterComponent {\n  count = 0;\n  \n  increment() {\n    this.count++;\n  }\n  \n  decrement() {\n    this.count--;\n  }\n}\n\n// React: Function component with hooks\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  \n  return (\n    <div>\n      <h2>Count: {count}</h2>\n      <button onClick={() => setCount(count + 1)}>+</button>\n      <button onClick={() => setCount(count - 1)}>-</button>\n    </div>\n  );\n}\n\n// Vue: Single File Component\n<template>\n  <div>\n    <h2>Count: {{ count }}</h2>\n    <button @click=\"increment\">+</button>\n    <button @click=\"decrement\">-</button>\n  </div>\n</template>\n\n<script>\nexport default {\n  data() {\n    return { count: 0 };\n  },\n  methods: {\n    increment() { this.count++; },\n    decrement() { this.count--; }\n  }\n};\n</script>",
+      "explanation": "This comparison shows how the same counter component is implemented in Angular, React, and Vue, highlighting Angular's TypeScript-first approach and decorator-based architecture."
     }
   ],
-  "order": 1,
-  "tags": ["introduction", "overview", "framework", "components", "modules"],
-  "difficulty": "beginner",
-  "estimatedTime": "15 min"
+  "exercises": [
+    {
+      "title": "Angular Framework Analysis",
+      "description": "Research and compare Angular with other popular frontend frameworks to understand its unique value proposition.",
+      "hints": [
+        "Compare Angular with React, Vue.js, and Svelte",
+        "Consider factors like learning curve, performance, and ecosystem",
+        "Look at job market trends and community size",
+        "Evaluate tooling and development experience",
+        "Research enterprise adoption and long-term support"
+      ],
+      "solution": "Angular offers several unique advantages:\n\n1. **Full Framework**: Unlike React (library) or Vue, Angular provides everything out of the box - routing, HTTP client, forms, testing utilities, etc.\n\n2. **TypeScript Integration**: Built from the ground up with TypeScript, providing superior tooling and IDE support.\n\n3. **Enterprise Focus**: Strong conventions, dependency injection, and architectural patterns make it ideal for large teams and complex applications.\n\n4. **Google Backing**: Long-term support and stability with regular, predictable releases.\n\n5. **Comprehensive CLI**: Angular CLI provides powerful scaffolding, building, and testing capabilities.\n\n6. **Mature Ecosystem**: Rich ecosystem with Angular Material, Angular Universal (SSR), and extensive third-party libraries.\n\nChoose Angular when you need a complete solution for enterprise applications, prefer strong typing and conventions, or are building complex applications with large teams."
+    }
+  ],
+  "nextSection": "prerequisites-setup",
+  "previousSection": null
 }

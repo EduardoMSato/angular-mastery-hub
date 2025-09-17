@@ -4,7 +4,6 @@ import { RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { NavigationService } from '../core/services/navigation.service';
-import { ThemeService } from '../core/services/theme.service';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from './footer/footer.component';
@@ -29,10 +28,8 @@ import { FooterComponent } from './footer/footer.component';
 })
 export class LayoutComponent implements OnInit {
   private navigationService = inject(NavigationService);
-  private themeService = inject(ThemeService);
 
   sidebarOpen$: Observable<boolean> = this.navigationService.getSidebarState();
-  isDarkTheme$: Observable<boolean> = this.themeService.isDarkTheme();
 
   ngOnInit(): void {
     // Initialize any layout-specific setup here

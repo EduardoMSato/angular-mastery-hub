@@ -5,11 +5,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
-import { ThemeService } from '../../core/services/theme.service';
 import { NavigationService } from '../../core/services/navigation.service';
 import { Breadcrumb } from '../../shared/interfaces/navigation-state.interface';
+import { SearchDialogComponent } from '../../shared/components/search-dialog/search-dialog.component';
 
 /**
  * Header component containing navigation controls, breadcrumbs, and theme toggle.
@@ -30,12 +31,11 @@ import { Breadcrumb } from '../../shared/interfaces/navigation-state.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
-  private themeService = inject(ThemeService);
   private navigationService = inject(NavigationService);
+  private dialog = inject(MatDialog);
 
   @Output() sidebarToggle = new EventEmitter<void>();
 
-  isDarkTheme$: Observable<boolean> = this.themeService.isDarkTheme();
   breadcrumbs$: Observable<Breadcrumb[]> = this.navigationService.getBreadcrumbs();
 
   /**
@@ -46,16 +46,21 @@ export class HeaderComponent {
   }
 
   /**
-   * Toggle between light and dark themes.
-   */
-  onThemeToggle(): void {
-    this.themeService.toggleTheme();
-  }
-
-  /**
    * Navigate to home page.
    */
   onHomeClick(): void {
     this.navigationService.navigateToModule('getting-started');
+  }
+
+  /**
+   * Open the search dialog.
+   */
+  onSearchClick(): void {
+    this.dialog.open(SearchDialogComponent, {
+      width: '90vw',
+      maxWidth: '900px',
+      height: '80vh',
+      panelClass: 'search-dialog'
+    });
   }
 }

@@ -42,13 +42,13 @@
     </ol>
   </nav>
 
-  <!-- Theme Toggle -->
+  <!-- Search Button -->
   <button
     mat-icon-button
-    (click)="onThemeToggle()"
-    [attr.aria-label]="(isDarkTheme$ | async) ? 'Switch to light theme' : 'Switch to dark theme'"
-    [matTooltip]="(isDarkTheme$ | async) ? 'Light theme' : 'Dark theme'"
-    class="theme-toggle">
-    <mat-icon>{{ (isDarkTheme$ | async) ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    (click)="onSearchClick()"
+    aria-label="Search learning content"
+    matTooltip="Search content"
+    class="search-button">
+    <mat-icon>search</mat-icon>
   </button>
 </mat-toolbar>

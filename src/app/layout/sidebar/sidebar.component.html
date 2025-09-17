@@ -20,10 +20,13 @@
           [class.current-module]="(currentModule$ | async) === module.id">
 
           <!-- Module Header -->
-          <mat-expansion-panel-header class="module-header">
+          <mat-expansion-panel-header class="module-header"
+            [matTooltip]="module.description"
+            matTooltipPosition="right"
+            matTooltipClass="module-tooltip">
             <mat-panel-title class="module-title">
               <span class="module-icon">{{ module.icon }}</span>
-              <span class="module-text">{{ module.title }}</span>
+              <span class="module-text">{{ getCleanTitle(module.title) }}</span>
             </mat-panel-title>
             <mat-panel-description class="module-description">
               {{ module.estimatedTime }}
@@ -32,8 +35,6 @@
 
           <!-- Module Content - Sections List -->
           <div class="module-content">
-            <p class="module-description-full">{{ module.description }}</p>
-
             <mat-nav-list class="sections-list" role="list">
               <mat-list-item
                 *ngFor="let section of module.sections; trackBy: trackBySectionId"

@@ -15,7 +15,8 @@ export class ContentService {
   private http = inject(HttpClient);
 
   private readonly CONTENT_BASE = '/assets/content';
-  private modules$ = new BehaviorSubject<LearningModule[]>([]);
+  private modulesSubject$ = new BehaviorSubject<LearningModule[]>([]);
+  public modules$ = this.modulesSubject$.asObservable();
   private currentSection$ = new BehaviorSubject<LearningSection | null>(null);
   private loading$ = new BehaviorSubject<boolean>(false);
 
@@ -23,7 +24,7 @@ export class ContentService {
    * Get all available learning modules.
    */
   getModules(): Observable<LearningModule[]> {
-    return this.modules$.asObservable();
+    return this.modules$;
   }
 
   /**
@@ -51,7 +52,7 @@ export class ContentService {
         map(response => response.modules),
         tap(modules => {
           this.validateModules(modules);
-          this.modules$.next(modules);
+          this.modulesSubject$.next(modules);
           this.loading$.next(false);
         }),
         catchError(error => {
@@ -104,7 +105,7 @@ export class ContentService {
    * Get a specific module by ID.
    */
   getModule(moduleId: string): Observable<LearningModule | null> {
-    return this.modules$.pipe(
+    return this.modulesSubject$.pipe(
       map(modules => modules.find(module => module.id === moduleId) || null)
     );
   }
@@ -119,7 +120,7 @@ export class ContentService {
 
     const searchTerm = query.toLowerCase().trim();
 
-    return this.modules$.pipe(
+    return this.modulesSubject$.pipe(
       map(modules => {
         const results: LearningSection[] = [];
 

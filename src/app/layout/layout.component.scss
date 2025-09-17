@@ -1,40 +1,42 @@
 @use '@angular/material' as mat;
 
 .layout-container {
-  display: grid;
-  grid-template-areas:
-    'header header'
-    'sidebar main'
-    'footer footer';
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: 0 1fr;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  transition: grid-template-columns 0.3s ease-in-out;
 
-  &.sidebar-open {
-    grid-template-columns: 280px 1fr;
-  }
+}
+
+.layout-content-area {
+  display: flex;
+  flex: 1;
 }
 
 .layout-header {
-  grid-area: header;
   z-index: 100;
+  flex-shrink: 0;
 }
 
 .layout-sidebar {
-  grid-area: sidebar;
   z-index: 90;
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+
+  .layout-container.sidebar-open & {
+    width: 280px;
+  }
 }
 
 .layout-main {
-  grid-area: main;
+  flex: 1;
   overflow-x: hidden;
   min-height: 0; // Allows content to scroll
 }
 
 .layout-footer {
-  grid-area: footer;
   z-index: 80;
+  flex-shrink: 0;
 }
 
 .layout-backdrop {
@@ -55,42 +57,51 @@
   margin: 0 auto;
 }
 
-// Mobile and tablet responsive behavior
-@media (max-width: 768px) {
-  .layout-container {
-    grid-template-areas:
-      'header'
-      'main'
-      'footer';
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr auto;
-
-    &.sidebar-open {
-      grid-template-columns: 1fr;
-
-      .layout-sidebar {
-        position: fixed;
-        top: 64px; // Height of header
-        left: 0;
-        width: 280px;
-        height: calc(100vh - 64px);
-        transform: translateX(0);
-      }
-
-      .layout-backdrop {
-        display: block;
-      }
-    }
+// Desktop responsive behavior
+@media (min-width: 769px) {
+  .layout-backdrop {
+    display: none !important;
   }
 
   .layout-sidebar {
-    position: fixed;
+    position: relative;
+    overflow: hidden;
+    transition: width 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+
+    .sidebar-container {
+      box-shadow: none;
+      width: 280px; // Fixed width for the content
+    }
+  }
+}
+
+// Mobile and tablet responsive behavior
+@media (max-width: 768px) {
+  .layout-sidebar {
+    position: fixed !important;
     top: 64px;
     left: 0;
-    width: 280px;
+    width: 280px !important;
     height: calc(100vh - 64px);
+    z-index: 95;
+    overflow: visible !important;
     transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.25s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+
+    .sidebar-container {
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+      width: 280px;
+    }
+  }
+
+  .layout-container.sidebar-open {
+    .layout-sidebar {
+      transform: translateX(0);
+    }
+
+    .layout-backdrop {
+      display: block;
+    }
   }
 
   .content-container {
@@ -108,9 +119,4 @@
   }
 }
 
-// Dark theme adjustments
-:host-context(.dark-theme) {
-  .layout-backdrop {
-    background-color: rgba(0, 0, 0, 0.7);
-  }
-}
+// Clean, professional styling

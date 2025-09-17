@@ -1,5 +1,6 @@
 {
-  "id": "components",
+  "id": "components-basics",
+  "moduleId": "fundamentals",
   "title": "Angular Components Deep Dive",
   "order": 1,
   "content": "Components are the fundamental building blocks of Angular applications. Every Angular application has at least one component - the root component - and typically consists of many components that work together to create the user interface.\n\nA component controls a portion of the screen called a view through its associated template. The component class defines the application logic that supports the view, while the template defines the HTML layout.",

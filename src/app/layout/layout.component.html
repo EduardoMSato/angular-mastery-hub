@@ -5,11 +5,21 @@
     (sidebarToggle)="onSidebarToggle()">
   </app-header>
 
-  <!-- Sidebar -->
-  <app-sidebar
-    class="layout-sidebar"
-    [isOpen]="(sidebarOpen$ | async) || false">
-  </app-sidebar>
+  <!-- Content Area (Sidebar + Main) -->
+  <div class="layout-content-area">
+    <!-- Sidebar -->
+    <app-sidebar
+      class="layout-sidebar"
+      [isOpen]="(sidebarOpen$ | async) || false">
+    </app-sidebar>
+
+    <!-- Main Content Area -->
+    <main class="layout-main" role="main">
+      <div class="content-container">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
 
   <!-- Backdrop for mobile -->
   <div
@@ -18,13 +28,6 @@
     (click)="onBackdropClick()"
     aria-hidden="true">
   </div>
-
-  <!-- Main Content Area -->
-  <main class="layout-main" role="main">
-    <div class="content-container">
-      <router-outlet></router-outlet>
-    </div>
-  </main>
 
   <!-- Footer -->
   <app-footer class="layout-footer"></app-footer>

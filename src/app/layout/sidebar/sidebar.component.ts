@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, inject, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -6,6 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Observable } from 'rxjs';
 
 import { ContentService } from '../../core/services/content.service';
@@ -25,13 +26,14 @@ import { LearningModule } from '../../shared/interfaces/learning-module.interfac
     MatListModule,
     MatIconModule,
     MatExpansionModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTooltipModule
   ],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnChanges {
   private contentService = inject(ContentService);
   private navigationService = inject(NavigationService);
 
@@ -49,6 +51,10 @@ export class SidebarComponent implements OnInit {
         console.error('Failed to load modules in sidebar:', error);
       }
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Handle input changes if needed
   }
 
   /**
@@ -77,5 +83,13 @@ export class SidebarComponent implements OnInit {
    */
   trackBySectionId(index: number, section: any): string {
     return section.id;
+  }
+
+  /**
+   * Remove emoji from module title to keep clean text with separate icon.
+   */
+  getCleanTitle(title: string): string {
+    // Remove emoji characters from the beginning of the title
+    return title.replace(/^[\u{1F300}-\u{1F9FF}][\u{FE00}-\u{FE0F}]?\s*/u, '').trim();
   }
 }
