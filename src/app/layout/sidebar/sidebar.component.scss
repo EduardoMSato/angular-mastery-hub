@@ -254,11 +254,11 @@
   opacity: 0.8;
   font-size: 0.65rem;
   flex-shrink: 0;
-  min-width: 36px;
+  min-width: 50px;
   text-align: right;
   white-space: nowrap;
-  padding-right: 4px;
-  margin-right: 2px;
+  padding-right: 10px;
+  margin-right: 20px;
 }
 
 .progress-summary {
@@ -371,7 +371,7 @@
 
   .section-time {
     font-size: 0.52rem;
-    min-width: 30px;
+    min-width: 45px;
     padding-right: 3px;
     margin-right: 1px;
   }

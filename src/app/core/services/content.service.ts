@@ -111,6 +111,13 @@ export class ContentService {
   }
 
   /**
+   * Clear the current section to show welcome state.
+   */
+  clearCurrentSection(): void {
+    this.currentSection$.next(null);
+  }
+
+  /**
    * Search for content across all modules and sections.
    */
   searchContent(query: string): Observable<LearningSection[]> {

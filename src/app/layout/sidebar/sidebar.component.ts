@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject, ChangeDetectionStrategy, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, inject, ChangeDetectionStrategy, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -7,7 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { ContentService } from '../../core/services/content.service';
 import { NavigationService } from '../../core/services/navigation.service';
@@ -33,10 +34,11 @@ import { LearningModule } from '../../shared/interfaces/learning-module.interfac
   styleUrls: ['./sidebar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SidebarComponent implements OnInit, OnChanges {
+export class SidebarComponent implements OnInit, OnDestroy, OnChanges {
   private contentService = inject(ContentService);
   private navigationService = inject(NavigationService);
   private cdr = inject(ChangeDetectorRef);
+  private destroy$ = new Subject<void>();
 
   @Input() isOpen = false;
 
@@ -47,7 +49,9 @@ export class SidebarComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     // Load modules when component initializes
-    this.contentService.loadModules().subscribe({
+    this.contentService.loadModules().pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
       next: () => {
         this.cdr.markForCheck();
       },
@@ -56,6 +60,18 @@ export class SidebarComponent implements OnInit, OnChanges {
         this.cdr.markForCheck();
       }
     });
+
+    // Subscribe to navigation changes for highlighting updates
+    this.navigationService.getCurrentSection().pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.cdr.markForCheck();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -66,6 +82,11 @@ export class SidebarComponent implements OnInit, OnChanges {
    * Navigate to a specific section.
    */
   onSectionClick(moduleId: string, sectionId: string): void {
+    // Immediately update the current section for instant feedback
+    this.navigationService.updateCurrentSection(moduleId, sectionId);
+    // Trigger change detection
+    this.cdr.markForCheck();
+    // Then navigate to trigger route change
     this.navigationService.navigateToSection(moduleId, sectionId);
   }
 

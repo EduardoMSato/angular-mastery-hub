@@ -33,6 +33,10 @@ export class FundamentalsComponent implements OnInit, OnDestroy {
       const sectionId = params['sectionId'];
       if (sectionId) {
         this.loadSection('fundamentals', sectionId);
+      } else {
+        // Clear current section to show welcome page
+        this.contentService.clearCurrentSection();
+        this.navigationService.updateCurrentSection('fundamentals', '');
       }
     });
 

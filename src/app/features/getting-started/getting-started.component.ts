@@ -39,6 +39,10 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
       const sectionId = params['sectionId'];
       if (sectionId) {
         this.loadSection('getting-started', sectionId);
+      } else {
+        // Clear current section to show welcome page
+        this.contentService.clearCurrentSection();
+        this.navigationService.updateCurrentSection('getting-started', '');
       }
     });
 
