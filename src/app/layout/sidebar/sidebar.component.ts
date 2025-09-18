@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, inject, ChangeDetectionStrategy, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -36,6 +36,7 @@ import { LearningModule } from '../../shared/interfaces/learning-module.interfac
 export class SidebarComponent implements OnInit, OnChanges {
   private contentService = inject(ContentService);
   private navigationService = inject(NavigationService);
+  private cdr = inject(ChangeDetectorRef);
 
   @Input() isOpen = false;
 
@@ -47,8 +48,12 @@ export class SidebarComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     // Load modules when component initializes
     this.contentService.loadModules().subscribe({
+      next: () => {
+        this.cdr.markForCheck();
+      },
       error: (error) => {
         console.error('Failed to load modules in sidebar:', error);
+        this.cdr.markForCheck();
       }
     });
   }

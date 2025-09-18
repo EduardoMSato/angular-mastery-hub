@@ -1,20 +1,12 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
 import { FundamentalsComponent } from './fundamentals.component';
+import { FundamentalsRoutingModule } from './fundamentals-routing.module';
 
 @NgModule({
   imports: [
-    RouterModule.forChild([
-      {
-        path: '',
-        component: FundamentalsComponent
-      },
-      {
-        path: ':sectionId',
-        component: FundamentalsComponent
-      }
-    ])
+    FundamentalsComponent,
+    FundamentalsRoutingModule
   ]
 })
 export class FundamentalsModule { }

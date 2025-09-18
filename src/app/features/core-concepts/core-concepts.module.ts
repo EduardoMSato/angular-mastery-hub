@@ -1,20 +1,12 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
 import { CoreConceptsComponent } from './core-concepts.component';
+import { CoreConceptsRoutingModule } from './core-concepts-routing.module';
 
 @NgModule({
   imports: [
-    RouterModule.forChild([
-      {
-        path: '',
-        component: CoreConceptsComponent
-      },
-      {
-        path: ':sectionId',
-        component: CoreConceptsComponent
-      }
-    ])
+    CoreConceptsComponent,
+    CoreConceptsRoutingModule
   ]
 })
 export class CoreConceptsModule { }

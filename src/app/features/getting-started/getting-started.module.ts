@@ -1,20 +1,12 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
 import { GettingStartedComponent } from './getting-started.component';
+import { GettingStartedRoutingModule } from './getting-started-routing.module';
 
 @NgModule({
   imports: [
-    RouterModule.forChild([
-      {
-        path: '',
-        component: GettingStartedComponent
-      },
-      {
-        path: ':sectionId',
-        component: GettingStartedComponent
-      }
-    ])
+    GettingStartedComponent,
+    GettingStartedRoutingModule
   ]
 })
 export class GettingStartedModule { }

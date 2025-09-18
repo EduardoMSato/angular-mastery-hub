@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -25,6 +25,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private contentService = inject(ContentService);
   private navigationService = inject(NavigationService);
+  private cdr = inject(ChangeDetectorRef);
   private destroy$ = new Subject<void>();
 
   currentSection: LearningSection | null = null;
@@ -46,6 +47,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe(section => {
       this.currentSection = section;
+      this.cdr.markForCheck();
     });
 
     // Subscribe to loading state
@@ -53,6 +55,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$)
     ).subscribe(loading => {
       this.loading = loading;
+      this.cdr.markForCheck();
     });
   }
 
