@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -239,7 +240,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   constructor(
     private searchService: SearchService,
-    private router: Router
+    private router: Router,
+    @Optional() private dialogRef: MatDialogRef<any>
   ) {}
 
   ngOnInit() {
@@ -348,11 +350,14 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   navigateToResult(result: SearchResult) {
-    // Navigate to the specific section
-    const route = `/${result.moduleId}`;
-    this.router.navigate([route], {
-      fragment: result.id
-    });
+    // Navigate to the specific section using proper routing
+    // All search results should navigate to module/section format
+    this.router.navigate(['/', result.moduleId, result.id]);
+
+    // Close dialog if component is used in a dialog
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    }
   }
 
   trackByResultId(index: number, result: SearchResult): string {

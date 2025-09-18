@@ -19,7 +19,7 @@ import { SearchComponent } from '../search/search.component';
     <div class="search-dialog-container">
       <div class="search-dialog-header" mat-dialog-title>
         <h2>Search Learning Content</h2>
-        <button mat-icon-button (click)="close()" aria-label="Close search">
+        <button (click)="close()" aria-label="Close search" class="close-button">
           <mat-icon>close</mat-icon>
         </button>
       </div>
@@ -51,10 +51,24 @@ import { SearchComponent } from '../search/search.component';
         color: #333;
       }
 
-      button {
-        min-width: auto;
+      .close-button {
+        border: none;
+        background: none;
+        padding: 0;
         width: 40px;
         height: 40px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        outline: none;
+
+        mat-icon {
+          color: #666;
+          font-size: 24px;
+          width: 24px;
+          height: 24px;
+        }
       }
     }
 

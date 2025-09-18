@@ -89,6 +89,18 @@ export class ContentService {
     return this.http.get<LearningSection>(`${this.CONTENT_BASE}/sections/${moduleId}/${sectionId}.json`)
       .pipe(
         tap(section => {
+          // Enhance section with difficulty from modules data
+          const modules = this.modulesSubject$.value;
+          const module = modules.find(m => m.id === moduleId);
+          if (module) {
+            const moduleSection = module.sections.find(s => s.id === sectionId);
+            if (moduleSection) {
+              section.difficulty = moduleSection.difficulty;
+              section.estimatedTime = moduleSection.estimatedTime;
+              section.tags = moduleSection.tags;
+            }
+          }
+
           this.validateSection(section);
           this.currentSection$.next(section);
           this.loading$.next(false);
