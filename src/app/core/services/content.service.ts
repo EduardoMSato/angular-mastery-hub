@@ -14,7 +14,7 @@ import { LearningModule, LearningSection } from '../../shared/interfaces/learnin
 export class ContentService {
   private http = inject(HttpClient);
 
-  private readonly CONTENT_BASE = './assets/content';
+  private readonly CONTENT_BASE = 'assets/content';
   private modulesSubject$ = new BehaviorSubject<LearningModule[]>([]);
   public modules$ = this.modulesSubject$.asObservable();
   private currentSection$ = new BehaviorSubject<LearningSection | null>(null);
