@@ -1,0 +1,44 @@
+{
+  "id": "components-basics",
+  "moduleId": "fundamentals",
+  "title": "Angular Components Deep Dive",
+  "order": 1,
+  "content": "Components are the fundamental building blocks of Angular applications. Every Angular application has at least one component - the root component - and typically consists of many components that work together to create the user interface.\n\nA component controls a portion of the screen called a view through its associated template. The component class defines the application logic that supports the view, while the template defines the HTML layout.",
+  "estimatedTime": "25 minutes",
+  "objectives": [
+    "Understand component architecture and lifecycle",
+    "Learn about component metadata and decorators",
+    "Master data binding and event handling",
+    "Explore component communication patterns"
+  ],
+  "codeExamples": [
+    {
+      "title": "Complete Component Example",
+      "language": "typescript",
+      "code": "import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';\n\n@Component({\n  selector: 'app-user-card',\n  template: `\n    <div class=\"user-card\" [class.active]=\"isActive\">\n      <img [src]=\"user.avatar\" [alt]=\"user.name\">\n      <h3>{{ user.name }}</h3>\n      <p>{{ user.email }}</p>\n      <button (click)=\"onSelectUser()\" \n              [disabled]=\"!isSelectable\">\n        {{ buttonText }}\n      </button>\n    </div>\n  `,\n  styles: [`\n    .user-card {\n      border: 1px solid #ddd;\n      border-radius: 8px;\n      padding: 16px;\n      margin: 8px;\n      transition: all 0.3s ease;\n    }\n    .user-card.active {\n      border-color: #007bff;\n      box-shadow: 0 2px 8px rgba(0,123,255,0.25);\n    }\n    img {\n      width: 64px;\n      height: 64px;\n      border-radius: 50%;\n    }\n  `]\n})\nexport class UserCardComponent implements OnInit, OnDestroy {\n  @Input() user: any;\n  @Input() isSelectable = true;\n  @Input() isActive = false;\n  \n  @Output() userSelected = new EventEmitter<any>();\n  \n  buttonText = 'Select User';\n  \n  ngOnInit() {\n    console.log('UserCard component initialized');\n  }\n  \n  ngOnDestroy() {\n    console.log('UserCard component destroyed');\n  }\n  \n  onSelectUser() {\n    if (this.isSelectable) {\n      this.userSelected.emit(this.user);\n    }\n  }\n}",
+      "explanation": "This component demonstrates key concepts: input/output properties, event binding, property binding, lifecycle hooks, and conditional styling."
+    },
+    {
+      "title": "Using the Component",
+      "language": "typescript",
+      "code": "// Parent component\n@Component({\n  selector: 'app-user-list',\n  template: `\n    <div class=\"user-list\">\n      <app-user-card \n        *ngFor=\"let user of users; trackBy: trackByUserId\"\n        [user]=\"user\"\n        [isActive]=\"selectedUser?.id === user.id\"\n        [isSelectable]=\"true\"\n        (userSelected)=\"onUserSelected($event)\">\n      </app-user-card>\n    </div>\n  `\n})\nexport class UserListComponent {\n  users = [\n    { id: 1, name: 'John Doe', email: 'john@example.com', avatar: 'assets/john.jpg' },\n    { id: 2, name: 'Jane Smith', email: 'jane@example.com', avatar: 'assets/jane.jpg' }\n  ];\n  \n  selectedUser: any = null;\n  \n  onUserSelected(user: any) {\n    this.selectedUser = user;\n    console.log('Selected user:', user);\n  }\n  \n  trackByUserId(index: number, user: any): number {\n    return user.id;\n  }\n}",
+      "explanation": "This shows how to use the component with property binding, event binding, and structural directives like *ngFor."
+    }
+  ],
+  "exercises": [
+    {
+      "title": "Build a Product Card Component",
+      "description": "Create a reusable product card component that displays product information and handles user interactions.",
+      "hints": [
+        "Create input properties for product data (name, price, image, description)",
+        "Add output events for add to cart and view details actions",
+        "Include property binding for dynamic styling",
+        "Use interpolation to display product information",
+        "Add conditional rendering for sale badges or stock status"
+      ],
+      "solution": "import { Component, Input, Output, EventEmitter } from '@angular/core';\n\ninterface Product {\n  id: number;\n  name: string;\n  price: number;\n  image: string;\n  description: string;\n  inStock: boolean;\n  onSale?: boolean;\n  salePrice?: number;\n}\n\n@Component({\n  selector: 'app-product-card',\n  template: `\n    <div class=\"product-card\" [class.out-of-stock]=\"!product.inStock\">\n      <div class=\"product-image\">\n        <img [src]=\"product.image\" [alt]=\"product.name\">\n        <span *ngIf=\"product.onSale\" class=\"sale-badge\">SALE</span>\n      </div>\n      <div class=\"product-info\">\n        <h3>{{ product.name }}</h3>\n        <p class=\"description\">{{ product.description }}</p>\n        <div class=\"price\">\n          <span *ngIf=\"product.onSale\" class=\"original-price\">\n            ${{ product.price }}\n          </span>\n          <span class=\"current-price\">\n            ${{ product.onSale ? product.salePrice : product.price }}\n          </span>\n        </div>\n        <div class=\"actions\">\n          <button (click)=\"onViewDetails()\" class=\"btn-secondary\">\n            View Details\n          </button>\n          <button (click)=\"onAddToCart()\" \n                  [disabled]=\"!product.inStock\"\n                  class=\"btn-primary\">\n            {{ product.inStock ? 'Add to Cart' : 'Out of Stock' }}\n          </button>\n        </div>\n      </div>\n    </div>\n  `,\n  styles: [`\n    .product-card {\n      border: 1px solid #e0e0e0;\n      border-radius: 12px;\n      overflow: hidden;\n      transition: transform 0.2s, box-shadow 0.2s;\n    }\n    .product-card:hover {\n      transform: translateY(-2px);\n      box-shadow: 0 4px 12px rgba(0,0,0,0.15);\n    }\n    .product-card.out-of-stock {\n      opacity: 0.6;\n    }\n    .product-image {\n      position: relative;\n      width: 100%;\n      height: 200px;\n      overflow: hidden;\n    }\n    .product-image img {\n      width: 100%;\n      height: 100%;\n      object-fit: cover;\n    }\n    .sale-badge {\n      position: absolute;\n      top: 8px;\n      right: 8px;\n      background: #ff4444;\n      color: white;\n      padding: 4px 8px;\n      border-radius: 4px;\n      font-size: 12px;\n      font-weight: bold;\n    }\n    .product-info {\n      padding: 16px;\n    }\n    .description {\n      color: #666;\n      margin: 8px 0;\n    }\n    .price {\n      margin: 12px 0;\n    }\n    .original-price {\n      text-decoration: line-through;\n      color: #999;\n      margin-right: 8px;\n    }\n    .current-price {\n      font-weight: bold;\n      font-size: 18px;\n      color: #333;\n    }\n    .actions {\n      display: flex;\n      gap: 8px;\n      margin-top: 16px;\n    }\n    .btn-primary, .btn-secondary {\n      padding: 8px 16px;\n      border: none;\n      border-radius: 6px;\n      cursor: pointer;\n      transition: background-color 0.2s;\n    }\n    .btn-primary {\n      background: #007bff;\n      color: white;\n      flex: 1;\n    }\n    .btn-primary:hover:not(:disabled) {\n      background: #0056b3;\n    }\n    .btn-primary:disabled {\n      background: #ccc;\n      cursor: not-allowed;\n    }\n    .btn-secondary {\n      background: #f8f9fa;\n      color: #333;\n      border: 1px solid #dee2e6;\n    }\n    .btn-secondary:hover {\n      background: #e9ecef;\n    }\n  `]\n})\nexport class ProductCardComponent {\n  @Input() product!: Product;\n  @Output() addToCart = new EventEmitter<Product>();\n  @Output() viewDetails = new EventEmitter<Product>();\n  \n  onAddToCart() {\n    if (this.product.inStock) {\n      this.addToCart.emit(this.product);\n    }\n  }\n  \n  onViewDetails() {\n    this.viewDetails.emit(this.product);\n  }\n}"
+    }
+  ],
+  "nextSection": "data-binding",
+  "previousSection": null
+}
